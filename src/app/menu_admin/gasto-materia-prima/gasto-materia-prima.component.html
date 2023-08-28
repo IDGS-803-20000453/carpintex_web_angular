@@ -1,0 +1,175 @@
+<app-menu></app-menu>
+<div class="container-xl">
+	<div class="table-responsive">
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>Gestion <b>Gasto de Materia Prima</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="#addGastoMateriaPrimaModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar Gasto de Materia</span></a>
+						<!-- <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						 -->
+					</div>
+				</div>
+			</div>
+            <mat-form-field>
+				<input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+			  </mat-form-field>
+	  <table mat-table [dataSource]="dataSource" class="mat-table">
+		  <!-- Header Row -->
+          <ng-container matColumnDef="producto">
+            <th mat-header-cell *matHeaderCellDef>Producto</th>
+            <td mat-cell *matCellDef="let dataSource">
+                <div *ngFor="let Producto of dataSourceProducto">
+                    <span *ngIf="Producto.id == dataSource.producto_Id">
+                        {{Producto.nombre}}
+                    </span>
+                </div>
+            </td>
+        </ng-container>
+            <ng-container matColumnDef="materiaPrima">
+                <th mat-header-cell *matHeaderCellDef>Materia Prima</th>
+                <td mat-cell *matCellDef="let dataSource">
+                    <div *ngFor="let MateriaPrima of dataSourceMateriaPrima">
+                        <span *ngIf="MateriaPrima.id == dataSource.materiaPrima_Id">
+                            {{MateriaPrima.nombre}}
+                        </span>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+                <td mat-cell *matCellDef="let dataSource">{{ dataSource.cantidad }}</td>
+            </ng-container>
+            <ng-container matColumnDef="costo">
+                <th mat-header-cell *matHeaderCellDef>Costo</th>
+                <td mat-cell *matCellDef="let dataSource">{{ dataSource.costo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+			  <td mat-cell *matCellDef="let dataSource">
+				  <a href="#editGastoMateriaModal" class="edit" data-toggle="modal" (click)="GastoMateriaPrimaGet(dataSource);" ><i class="material-icons text-warning" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+				  <a href="#deleteGastoMateriaModal" class="delete" data-toggle="modal" (click)="GastoMateriaPrimaGet(dataSource);"><i class="material-icons text-danger" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+			  </td>
+            </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		  <tr mat-row *matRowDef="let dataSource,columns: displayedColumns;"></tr>
+	  </table>
+	  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+    </div>
+    </div>
+</div>
+
+<div id="addGastoMateriaPrimaModal" class="modal fade" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="agregarGastoMateriaPrima()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Gasto Materia Prima</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>Producto</label>
+						<select class="form-control" name="selectProducto" [(ngModel)]="selectProducto" >
+                            <option *ngFor="let Producto of dataSourceProducto" [value]="Producto.id">
+                                {{Producto.nombre}}
+                            </option>
+                        </select>
+					</div>
+					<div class="form-group">
+						<label>Materia Prima</label>
+						<select class="form-control" name="selectMateriaPrima" [(ngModel)]="selectMateriaPrima" >
+                            <option *ngFor="let MateriaPrima of dataSourceMateriaPrima" [value]="MateriaPrima.id">
+                                {{MateriaPrima.nombre}}
+                            </option>
+                        </select>
+					</div>
+					<div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" name="cantidad" [(ngModel)]="regGastoMateriaPrima.cantidad" placeholder="Cantidad" required>
+                    </div> 				
+				</div>
+				<div class="modal-footer">
+					<button id="closeAddModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-success"  value="Añadir">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editGastoMateriaModal" class="modal fade" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="editarGastoMateriaPrima()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Editar Gasto Materia Prima</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label>Producto</label>
+                        <select class="form-control" name="selectProducto" [(ngModel)]="selectProducto" >
+                                <option *ngFor="let Producto of dataSourceProducto" [value]="Producto.id">
+                                    {{Producto.nombre}}
+                                </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Materia Prima</label>
+                        <select class="form-control" name="selectMateriaPrima" [(ngModel)]="selectMateriaPrima" >
+                                <option *ngFor="let MateriaPrima of dataSourceMateriaPrima" [value]="MateriaPrima.id">
+                                    {{MateriaPrima.nombre}}
+                                </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" name="cantidad" [(ngModel)]="regGastoMateriaPrimaGet.cantidad" placeholder="Cantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Costo</label>
+                        <input type="number" class="form-control" name="costo" [(ngModel)]="regGastoMateriaPrimaGet.costo" placeholder="Costo" required>
+                    </div> 											
+				</div>
+				<div class="modal-footer">
+					<button id="closeEditModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit"  class="btn btn-info"  value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteGastoMateriaModal" class="modal fade" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+				<div class="modal-header">						
+					<h4 class="modal-title">Eliminar Materia Prima</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+                    <!-- <div *ngFor="let item of dataSourceProducto">
+                        <p *ngIf="item.id == regGastoMateriaPrimaGet.producto_Id">Producto: {{item.nombre}}</p>"	
+                    </div>	 -->
+                    <div *ngFor="let item of dataSourceMateriaPrima">
+                        <p *ngIf="item.id == regGastoMateriaPrimaGet.materiaPrima_Id">Materia Prima: {{item.nombre}}</p>
+                    </div>		
+                    <p>Cantidad: {{regGastoMateriaPrimaGet.cantidad}}</p>
+					<p>Estas Seguro de eliminar esta materia Prima?</p>
+					<p class="text-warning"><small>Esta Accion no se podra revertir.</small></p>
+				</div>
+				<div class="modal-footer">
+					<button id="closeDeleteModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-danger" (click)="eliminarGastoMateriaPrima(regGastoMateriaPrimaGet);" value="Delete">
+				</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,242 @@
+<app-menu></app-menu>
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Gestión <b>Proveedores</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addProveedorModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar Proveedor</span></a>
+                        <!-- <a href="#deleteProveedorModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Borrar</span></a> -->
+                    </div>
+                </div>
+            </div>
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+            </mat-form-field>
+            <table mat-table [dataSource]="dataSource" class="mat-table">
+                <!-- Header Row -->
+                <ng-container matColumnDef="id" style="display: none;">
+                    <th mat-header-cell *matHeaderCellDef>id</th>
+                    <td mat-cell *matCellDef="let proveedor">{{ proveedor.id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                    <td mat-cell *matCellDef="let proveedor">{{ proveedor.nombre }}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="direccion">
+                    <th mat-header-cell *matHeaderCellDef>Dirección</th>
+                    <td mat-cell *matCellDef="let proveedor">{{ proveedor.direccion }}</td>
+                </ng-container>
+                <ng-container matColumnDef="telefono">
+                    <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+                    <td mat-cell *matCellDef="let proveedor">{{ proveedor.telefono }}</td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let proveedor">{{ proveedor.email }}</td>
+                </ng-container>
+                <ng-container matColumnDef="hasCompras">
+                    <th mat-header-cell *matHeaderCellDef> Tiene Compras </th>
+                    <td mat-cell *matCellDef="let proveedor"> {{ proveedor.canDelete ? 'No' : 'Sí' }} </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let proveedor" class="acciones-container">
+                      <div class="icon-row">
+                        <a href="#editProveedorModal" class="edit icon-action" data-toggle="modal" (click)="openEditModal(proveedor);">
+                          <i class="material-icons small-icon text-warning" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                        </a>
+                        <!-- Icono de basura deshabilitado -->
+                        <div matTooltip="{{proveedor.deleteMessage}}" *ngIf="!proveedor.canDelete">
+                          <a href="#deleteProveedorModal" 
+                             class="delete icon-action disabled-link" 
+                             data-toggle="modal">
+                            <i class="material-icons small-icon text-grey" data-toggle="tooltip" title="Borrar">&#xE872;</i>
+                          </a>
+                        </div>
+                        <!-- Icono de basura habilitado -->
+                        <a *ngIf="proveedor.canDelete" href="#deleteProveedorModal" class="delete icon-action" data-toggle="modal" (click)="openDeleteModal(proveedor);" [attr.title]="'Eliminar'">
+                          <i class="material-icons small-icon text-danger" data-toggle="tooltip" title="Borrar">&#xE872;</i>
+                        </a>
+                      </div>
+                      <!-- Icono de basura invisible sin funcionalidad en una segunda fila -->
+                      <i class="material-icons small-icon transparent-icon">&#xE872;</i>
+                    </td>
+                  </ng-container>
+                  
+                  
+                  
+                  
+                  
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let dataSource,columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal HTML -->
+
+<div id="addProveedorModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form #f="ngForm" (ngSubmit)="agregarProveedor()" novalidate>
+                <div class="modal-header">
+                  <h4 class="modal-title">Agregar Proveedor</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" name="nombre" [(ngModel)]="regProveedor.nombre" required minlength="3" maxlength="50" #nombre="ngModel" [class.is-invalid]="nombre.invalid && nombre.touched">
+                    <div *ngIf="nombre.errors && nombre.errors['required'] && nombre.touched" class="text-danger">Este campo es obligatorio</div>
+                    <div *ngIf="nombre.errors && nombre.errors['minlength']" class="text-danger">Debe contener al menos 3 caracteres</div>
+                    <div *ngIf="nombre.errors && nombre.errors['maxlength']" class="text-danger">Debe contener no más de 50 caracteres</div>
+                    
+                  </div>
+                  <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" class="form-control" name="direccion" [(ngModel)]="regProveedor.direccion" required minlength="10" maxlength="100" #direccion="ngModel" [class.is-invalid]="direccion.invalid && direccion.touched">
+                    <div *ngIf="direccion.errors && direccion.errors['required'] && direccion.touched" class="text-danger">Este campo es obligatorio</div>
+<div *ngIf="direccion.errors && direccion.errors['minlength']" class="text-danger">Debe contener al menos 10 caracteres</div>
+<div *ngIf="direccion.errors && direccion.errors['maxlength']" class="text-danger">Debe contener no más de 100 caracteres</div>
+                  </div>
+                  <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="telefono" 
+                           [(ngModel)]="regProveedor.telefono" 
+                           required 
+                           pattern="^\d{10}$" 
+                           #telefono="ngModel" 
+                           [class.is-invalid]="telefono.invalid && telefono.touched">
+                    <div *ngIf="telefono.errors && telefono.errors['required'] && telefono.touched" class="text-danger">Este campo es obligatorio</div>
+                    <div *ngIf="telefono.errors && telefono.errors['pattern'] && telefono.touched" class="text-danger">Debe ser un número de 10 dígitos</div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" 
+                           class="form-control" 
+                           name="email" 
+                           [(ngModel)]="regProveedor.email" 
+                           required 
+                           minlength="5" 
+                           maxlength="100" 
+                           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" 
+                           #email="ngModel" 
+                           [class.is-invalid]="email.invalid && email.touched">
+                    <div *ngIf="email.errors && email.errors['required'] && email.touched" class="text-danger">Este campo es obligatorio</div>
+                    <div *ngIf="email.errors && email.errors['pattern'] && email.touched" class="text-danger">Debe tener el formato correcto (ejemplo@dominio.com)</div>
+                  </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button id="closeAddModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" (click)="limpiarProveedor()">Cancelar</button>
+                  <input type="submit" class="btn btn-success" value="Añadir" [disabled]="f.invalid">
+                </div>
+              </form>
+              
+              
+		</div>
+	</div>
+</div>
+
+
+<!-- Edit Modal HTML -->
+<div id="editProveedorModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="editarProveedor()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Editar Proveedor</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+                    <div class="form-group">
+                      <label>Nombre</label>
+                      <input type="text" class="form-control" name="nombre" [(ngModel)]="regProveedor.nombre" required minlength="3" maxlength="50" #nombre="ngModel" [class.is-invalid]="nombre.invalid && nombre.touched">
+                      <div *ngIf="nombre.errors && nombre.errors['required'] && nombre.touched" class="text-danger">Este campo es obligatorio</div>
+                      <div *ngIf="nombre.errors && nombre.errors['minlength']" class="text-danger">Debe contener al menos 3 caracteres</div>
+                      <div *ngIf="nombre.errors && nombre.errors['maxlength']" class="text-danger">Debe contener no más de 50 caracteres</div>
+                      
+                    </div>
+                    <div class="form-group">
+                      <label>Dirección</label>
+                      <input type="text" class="form-control" name="direccion" [(ngModel)]="regProveedor.direccion" required minlength="10" maxlength="100" #direccion="ngModel" [class.is-invalid]="direccion.invalid && direccion.touched">
+                      <div *ngIf="direccion.errors && direccion.errors['required'] && direccion.touched" class="text-danger">Este campo es obligatorio</div>
+  <div *ngIf="direccion.errors && direccion.errors['minlength']" class="text-danger">Debe contener al menos 10 caracteres</div>
+  <div *ngIf="direccion.errors && direccion.errors['maxlength']" class="text-danger">Debe contener no más de 100 caracteres</div>
+                    </div>
+                    <div class="form-group">
+                      <label>Teléfono</label>
+                      <input type="text" 
+                             class="form-control" 
+                             name="telefono" 
+                             [(ngModel)]="regProveedor.telefono" 
+                             required 
+                             pattern="^\d{10}$" 
+                             #telefono="ngModel" 
+                             [class.is-invalid]="telefono.invalid && telefono.touched">
+                      <div *ngIf="telefono.errors && telefono.errors['required'] && telefono.touched" class="text-danger">Este campo es obligatorio</div>
+                      <div *ngIf="telefono.errors && telefono.errors['pattern'] && telefono.touched" class="text-danger">Debe ser un número de 10 dígitos</div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" 
+                             class="form-control" 
+                             name="email" 
+                             [(ngModel)]="regProveedor.email" 
+                             required 
+                             minlength="5" 
+                             maxlength="100" 
+                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" 
+                             #email="ngModel" 
+                             [class.is-invalid]="email.invalid && email.touched">
+                      <div *ngIf="email.errors && email.errors['required'] && email.touched" class="text-danger">Este campo es obligatorio</div>
+                      <div *ngIf="email.errors && email.errors['pattern'] && email.touched" class="text-danger">Debe tener el formato correcto (ejemplo@dominio.com)</div>
+                    </div>
+                    
+                  </div>
+				<div class="modal-footer">
+                    <button id="closeEditModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" (click)="limpiarProveedor()">
+					<input type="submit" class="btn btn-warning" value="Editar" (click)="obtenerDatosProveedores()">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Delete Modal HTML -->
+
+<div id="deleteProveedorModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+				<div class="modal-header">						
+					<h4 class="modal-title">Eliminar Proveedor</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<p>Estas Seguro de eliminar este Proveedor?</p>
+					<p class="text-warning"><small>Esta Accion no se podra revertir.</small></p>
+				</div>
+				<div class="modal-footer">
+                    <button id="closeDeleteModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" (click)="eliminarProveedor();" value="Borrar">
+				</div>
+		</div>
+	</div>
+</div>

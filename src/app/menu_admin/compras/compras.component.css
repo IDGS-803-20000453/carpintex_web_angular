@@ -1,0 +1,7 @@
+.cdk-overlay-container {
+    z-index: 2000; /* Un valor más alto que el z-index del modal de Bootstrap */
+}
+
+.mat-datepicker-popup {
+    z-index: 2000 !important;
+}

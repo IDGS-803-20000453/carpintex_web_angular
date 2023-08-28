@@ -1,0 +1,36 @@
+.acciones-container {
+    display: flex;
+    flex-direction: column; /* Alinea los contenedores de íconos verticalmente */
+    align-items: center;
+  }
+  
+  .icon-row {
+    display: flex;
+    flex-direction: row; /* Alinea los íconos horizontalmente dentro de cada fila */
+    align-items: center;
+  }
+  
+  .icon-action {
+    display: inline-flex;
+    align-items: center;
+    margin: 0px; /* Agrega un pequeño margen entre los íconos */
+  }
+  
+  .disabled-link {
+    pointer-events: none;
+    cursor: not-allowed;
+    color: #ccc;
+  }
+  
+  .text-grey {
+    color: #ccc !important;
+  }
+  
+  .text-danger {
+    color: red !important;
+  }
+  
+  .transparent-icon {
+    opacity: 0; /* Hace que el icono sea completamente transparente */
+  }
+  

@@ -1,0 +1,37 @@
+.mat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  /* Estilos para el botón con color warning */
+.warning-button {
+  background-color: rgb(234, 223, 95);
+  color: rgb(255, 255, 255); /* Puedes ajustar el color del texto según sea necesario */
+}
+/* En tu archivo de estilos (styles.css o styles.scss) */
+.success-button-green {
+  background-color: green;
+  color: white;
+}
+
+/* Estilos para el ícono dentro del botón con color warning */
+.warning-icon {
+  color: rgb(255, 255, 255); /* Asegúrate de que el color del ícono sea legible en el fondo amarillo */
+}
+
+  .mat-table th,
+  .mat-table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    text-align: left;
+  }
+  
+  .mat-table th {
+    background-color: #f5f5f5;
+    font-weight: 500;
+  }
+  
+  .mat-table tr:hover {
+    background-color: #f0f0f0;
+  }
+  

@@ -1,0 +1,105 @@
+<app-home></app-home>
+
+<div class="swiper-container" id="top">
+    <div class="swiper-wrapper">
+
+      <!-- <div class="swiper-slide"> -->
+        <section class="body">
+
+            <div class="container mt-5">
+              <h5>Lista de Compras</h5>
+
+                <div class="row mb-4 mt-4" *ngIf="data.length>0; else elseBlock">
+                  <div class="card shadow-lg p-3 mb-3 bg-white rounded" style="border: none;"  *ngFor="let producto of data ">
+                    <div class="row no-gutters">
+                      <div class="col-md-2">
+                        <img src="../../../assets/images/calculator-bg.jpg" class="card-img" alt="..." style="height: 130px; width: 200px;">
+                      </div>
+                      <div class="col-md-10">
+                        <div class="card-body">
+                          
+
+                          <div class="row" style="display: flex; align-items: center;">
+                            <div class="col-4">
+                              <h5 class="card-title font-weight-bold">{{producto.producto.nombre}}</h5>
+                            </div>
+                            <div class="col-3 ">
+                              <p class="card-text text-muted">{{producto.producto.total}} $MXN <small class="text-muted">x {{producto.pedido.cantidad}}</small></p>
+
+                            </div>
+                            <div class="col-2 ">
+                              <p class="font-weight-bold mb-0">Total: {{producto.pedido.totalprecio}} $MXN</p>
+
+                            </div>
+                            <!-- <div class="col-3">
+                              <button class="btn btn-primary">Ver producto</button>
+                            </div> -->
+                          </div>
+                          <span *ngIf="producto.pedido.estatusPedido==1" class='text-white badge rounded-pill badge-notification bg-primary col-2' > Pedido procesado..</span>
+                          <span *ngIf="producto.pedido.estatusPedido==2" class='text-white badge rounded-pill badge-notification bg-warning col-2' > Pedido enviado</span>
+                          <span *ngIf="producto.pedido.estatusPedido==3" class='text-white badge rounded-pill badge-notification bg-success col-2' > Pedido entregado</span>
+
+                           
+                  <div class="row ml-1" style="display: flex; justify-content: space-between; align-items: center;">
+                   <p class="card-text text-muted"><small class="text-muted">anch {{producto.producto.ancho}}  m | larg {{producto.producto.largo}} m | alt {{producto.producto.altura}} m </small></p>
+                    <!-- <p class="font-weight-bold" style="margin-left: auto;">ANTICIPO: -item.anticipo- $MXN</p> -->
+                  </div>
+
+                  <div class="row " style="display: flex; align-items: center;">
+                    <div class="col-6 ">
+                      <p class="card-text " ><small class="text-muted">Pedido efectuado el: {{producto.pedido.fechaRealizado}}</small></p>                    </div>
+                    <div class="col-6 ">
+                      <span  class='text-white badge rounded-pill badge-notification bg-success col-6' >Pagado</span>
+                    </div>
+                  </div>
+                  
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                   
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="row mt-4"  >
+                        <div class="col-12 ">
+                          <div class="card shadow-lg bg-white rounded container" style="border: none;">
+                            <div class="row no-gutters">
+                              <!-- <div class="card-header">
+                                <h5>Productos</h5>
+                                
+                              </div> -->
+                              <div class="col-12">
+                                <div class="card-body text-center">
+                                  <img src="../../../assets/images/not-found.png" class="card-img mb-4" alt="..." style="height: 100px; width: 100px;">
+  
+                                  <h4 class="mb-2 ">¡Haz tu primera compra!</h4>
+                                  <p class="mb-2">Aquí podrás ver tus compras y hacer el seguimiento de tus envíos. </p>
+
+                                  <a class="btn btn-primary" [routerLink]="['/inventario']">Ver ofertas del día</a>
+                                </div>
+                                
+    
+                                        
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+        
+                      </div>                  </ng-template>
+                  </div>           
+        </section>
+            </div>
+  </div>
+<!-- <footer class="sticky-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <p>Copyright © 2022 IT SOFTECH Co., Ltd. All Rights Reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer> -->
+
+  
+
+

@@ -1,0 +1,21 @@
+<div class="dashboard-container">
+  <nav class="sidenav">
+    <div class ="element text-right " style="font-weight: bold;"><p class="font-weight-bold">Carpintex Dashboard <i class="fa fa-sign-out" style="padding-left: 1em;" (click)="exit()"></i>  </div>
+    <!-- Opciones de navegación para el dashboard -->
+    <a [routerLink]="['/materia']" routerLinkActive="active"><i class="fas fa-industry" style="padding-right: 2em; margin-top: 1em;"></i> Materia Prima</a>
+    <a [routerLink]="['/Proveedor']" routerLinkActive="active"><i class="fa-solid fa-users" style="padding-right: 2em;"></i>Proveedor    </a>
+    <a [routerLink]="['/producto']" routerLinkActive="active"><i class="fas fa-box" style="padding-right: 2em;"></i>Producto</a>
+    <a [routerLink]="['/pedidosAdmin']" routerLinkActive="active"><i class="fa fa-list" style="padding-right: 2em;"></i>      Pedido</a>
+    <a [routerLink]="['/envios']" routerLinkActive="active"><i class="fas fa-shipping-fast " style="padding-right: 2em;"></i>Envios</a>
+    <a [routerLink]="['/tipoMateriaPrima']" routerLinkActive="active"><i class="fas fa-box" style="padding-right: 2em;"></i>Tipo Materia Prima</a>
+    <!-- <a [routerLink]="['/Agregar']" routerLinkActive="active"><i class="fa fa-shopping-basket" style="padding-right: 2em;"></i>Ventas    </a> -->
+    <a [routerLink]="['/Compras']" routerLinkActive="active"><i class="fa fa-shopping-cart"style="padding-right: 2em;"></i>Compras    </a>
+    <a [routerLink]="['/fabricacionProducto']" routerLinkActive="active"><i class="fas fa-box" style="padding-right: 2em;"></i>Fabricacion</a>
+    <a [routerLink]="['/gastoMateriaPrima']" routerLinkActive="active"><i class="fas fa-box" style="padding-right: 2em;"></i>Gasto Materia Prima</a>
+    <a [routerLink]="['/finanzas']" routerLinkActive="active"><i class="fas fa-box" style="padding-right: 2em;"></i>Finanzas</a>
+
+  </nav>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

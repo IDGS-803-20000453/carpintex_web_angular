@@ -1,0 +1,203 @@
+<app-menu></app-menu>
+<div class="container-xl">
+	<div class="table-responsive">
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>Gestion <b>Producto</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="#addProductoModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar Producto</span></a>
+						<!-- <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						 -->
+					</div>
+				</div>
+			</div>
+			<mat-form-field class="example-form-field">
+				<input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+			</mat-form-field>
+			<table mat-table [dataSource]="dataSource" class="mat-table">
+				<!-- Name Column -->
+				<ng-container matColumnDef="nombre">
+					<th mat-header-cell *matHeaderCellDef> Nombre </th>
+					<td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+				</ng-container>
+				<!-- Weight Column -->
+				<ng-container matColumnDef="descripcion">
+					<th mat-header-cell *matHeaderCellDef> Descripcion </th>
+					<td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+				</ng-container>
+				<!-- Symbol Column -->
+				<ng-container matColumnDef="imagen">
+					<th mat-header-cell *matHeaderCellDef> Imagen </th>
+					<td mat-cell *matCellDef="let element"> <img width="150px" height="200px" [src]="element.imagen" alt="imagen"> </td>
+				</ng-container>
+				<!-- Symbol Column -->
+				<ng-container matColumnDef="medidas">
+					<th mat-header-cell *matHeaderCellDef> Medidas </th>
+					<td mat-cell *matCellDef="let element"> {{element.altura}}X{{element.ancho}}X{{element.largo}} </td>
+				</ng-container>
+				<!-- Symbol Column -->
+				<ng-container matColumnDef="total">
+					<th mat-header-cell *matHeaderCellDef> Total </th>
+					<td mat-cell *matCellDef="let element"> {{element.total}} </td>
+				</ng-container>
+				<!-- Symbol Column -->
+				<ng-container matColumnDef="stock">
+					<th mat-header-cell *matHeaderCellDef> Stock </th>
+					<td mat-cell *matCellDef="let element"> {{element.stock}} </td>
+				</ng-container>
+				<!-- Symbol Column -->
+				<ng-container matColumnDef="acciones">
+					<th mat-header-cell *matHeaderCellDef> Acciones </th>
+					<td mat-cell *matCellDef="let element"> 
+						<a href="#editProductoModal" class="edit" data-toggle="modal" (click)="editProductoGet(element);" ><i class="material-icons text-warning" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+						<a href="#deleteProductoModal" class="delete" data-toggle="modal" (click)="editProductoGet(element);" ><i class="material-icons text-danger" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+					</td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let dataSource; columns: displayedColumns;"></tr>
+			</table>
+			<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+		</div>
+	</div>        
+</div>
+<!-- Edit Modal HTML -->
+<div id="addProductoModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="agregarProducto()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Producto</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>Nombre</label>
+						<input type="text" class="form-control" name="nombre" [(ngModel)]="regProducto.nombre" placeholder="Nombre" required>
+					</div>
+					<div class="form-group">
+                        <label>Descripcion</label>
+                        <input type="text" class="form-control" name="descripcion" [(ngModel)]="regProducto.descripcion" placeholder="Descripcion" required>
+                    </div>
+                    <div class="form-group">
+                        <label>imagen</label>
+						<input type="file" class="form-control" (change)="handleImageChange($event)"  accept="image/*">
+                        <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" width="250" height="auto">
+                    </div>
+                    <div class="form-group">
+                        <label>altura</label>
+                        <input type="number" class="form-control" name="altura" [(ngModel)]="regProducto.altura" placeholder="Altura" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ancho</label>
+                        <input type="number" class="form-control" name="ancho" [(ngModel)]="regProducto.ancho" placeholder="Ancho" required>
+                    </div>
+                    <div class="form-group">
+                        <label>largo</label>
+                        <input type="number" class="form-control" name="largo" [(ngModel)]="regProducto.largo" placeholder="Largo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>total</label>
+                        <input type="number" class="form-control" name="total" [(ngModel)]="regProducto.total" placeholder="Total" required>
+                    </div>
+                    <div class="form-group">
+                        <label>stock</label>
+                        <input type="number" class="form-control" name="stock" [(ngModel)]="regProducto.stock" placeholder="Stock" required>
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button id="closeAddModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" (click)="limpiarDatos()" value="Cancel">
+					<input type="submit" class="btn btn-success"  value="Añadir">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editProductoModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="editarProducto()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Editar Producto</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>Nombre</label>
+						<input type="text" class="form-control" name="nombre" [(ngModel)]="regProductoEdit.nombre" placeholder="Nombre" required>
+					</div>
+					<div class="form-group">
+                        <label>Descripcion</label>
+                        <input type="text" class="form-control" name="descripcion" [(ngModel)]="regProductoEdit.descripcion" placeholder="Descripcion" required>
+                    </div>		
+                    <div class="form-group">
+                        <label>imagen Actual:</label>
+						<img [src]="regProductoEdit.imagen" alt="PreviewActual">
+						<label>Desea cambair la imagen:</label>
+						<input type="file" class="form-control" (change)="handleImageChange($event)"  accept="image/*">
+                       <!-- <input type="text" class="form-control" name="imagen" [(ngModel)]="regProductoEdit.imagen" placeholder="Imagen" required>
+					   -->
+					   <div *ngIf="imagePreview">
+						<label>Imagen Nueva:</label>
+                        <img [src]="imagePreview" alt="Preview" width="250" height="auto">
+					</div>
+                    
+					</div>
+                    <div class="form-group">
+                        <label>altura</label>
+                        <input type="number" class="form-control" name="altura" [(ngModel)]="regProductoEdit.altura" placeholder="Altura" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ancho</label>
+                        <input type="number" class="form-control" name="ancho" [(ngModel)]="regProductoEdit.ancho" placeholder="Ancho" required>
+                    </div>
+                    <div class="form-group">
+                        <label>largo</label>
+                        <input type="number" class="form-control" name="largo" [(ngModel)]="regProductoEdit.largo" placeholder="Largo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>total</label>
+                        <input type="number" class="form-control" name="total" [(ngModel)]="regProductoEdit.total" placeholder="Total" required>
+                    </div>
+                    <div class="form-group">
+                        <label>stock</label>
+                        <input type="number" class="form-control" name="stock" [(ngModel)]="regProductoEdit.stock" placeholder="Stock" required>
+                    </div>
+                    
+				</div>
+				<div class="modal-footer">
+					<button id="closeEditModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit"  class="btn btn-info"  value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteProductoModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form>
+				<div class="modal-header">						
+					<h4 class="modal-title">Eliminar Producto</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">	
+					<p>{{regProductoEdit.nombre}}</p>				
+					<p>Estas Seguro de eliminar este Producto?</p>
+					<p class="text-warning"><small>Esta Accion no se podra revertir.</small></p>
+				</div>
+				<div class="modal-footer">
+					<button id="closeDeleteModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-danger" value="Borrar">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

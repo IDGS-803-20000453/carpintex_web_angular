@@ -1,0 +1,47 @@
+.body {
+    /* height: 1000px; */
+    width: 100%;
+    position: relative;
+    background: rgb(235, 234, 234);
+    /* margin: 0; */
+} 
+/* Mantén los estilos anteriores */
+
+.loading-button.loading {
+    background-color: #28a745; /* Cambia el color a verde cuando está en estado de carga */
+  }
+  
+.loading-button {
+    position: relative;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .loading-button.loading {
+    background-color: #28a745; /* Cambiamos el color a verde cuando esté en estado de carga */
+  }
+  
+  .loader {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  
+
+
+  

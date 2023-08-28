@@ -1,0 +1,152 @@
+<app-menu></app-menu>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Finanzas</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h4>Selecciona el mes:</h4>
+            <select class="form-control mb-4" [(ngModel)]="selectedMes" (change)="handleChangedMes()">
+                <option value="0">Historico</option>
+                <option value="5" >Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+              </select>
+              
+              
+        </div>
+        <h4>Ventas por Mes</h4>
+
+        <!--Grafica de barras con charjs  los dataSourceProductoVenta-->
+        <div style="width: 80%; margin: auto;">
+            <div *ngIf="selectedMes > 0">
+                <ngx-charts-pie-chart
+                  [results]="ventasData"
+                  [legend]="true"
+                  [explodeSlices]="true"
+                  [labels]="true"
+                  [doughnut]="true"
+                  [scheme]="colorScheme2"> <!-- Puedes jugar con el esquema de color -->
+
+                  >
+                </ngx-charts-pie-chart>
+              </div>
+              <div *ngIf="selectedMes == 0">
+                <ngx-charts-pie-chart
+                  [results]="ventasData"
+                  [legend]="true"
+                  [explodeSlices]="true"
+                  [labels]="true"
+                  [doughnut]="true"
+
+                  xAxisLabel="Mes"
+                  yAxisLabel="Cantidad de Ventas">
+                </ngx-charts-pie-chart>
+              </div>
+              
+        </div>
+
+        
+          
+       <!-- <h2>Top Clientes:</h2>
+        <div class="col-12">
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">nombre</th>
+                            <th scope="col">Cantidad de productos comprados</th>
+                            <th scope="col">Total de compra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let UsuarioTop of dataSourceUsuariosTop">
+                            <td>{{UsuarioTop.nombreUsuario}}</td>
+                            <td>{{UsuarioTop.cantidadTotal}}</td>
+                            <td>${{UsuarioTop.totalPrecio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        --> 
+        <div class="col-12 mt-4">
+            <h4>Ventas por Producto</h4>
+
+            <div style="width: 80%; margin: auto;">
+                <ngx-charts-bar-vertical
+                  [results]="ventasProductosData"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [showXAxisLabel]="true"
+                  [showYAxisLabel]="true"
+                  xAxisLabel="Producto"
+                  yAxisLabel="Ventas totales">
+                </ngx-charts-bar-vertical>
+              </div>        
+              <div class="col-12 mt-4">
+                <h4>top 3 mejores compradores</h4>
+
+            <div class="container">
+
+                <div style="width: 80%; margin: auto;">
+                    <ngx-charts-pie-chart
+                      [results]="topClientesData"
+                      [legend]="true"
+                      [labels]="true"
+                      [doughnut]="false">
+                    </ngx-charts-pie-chart>
+                  </div>
+                </div>
+                <div class="col-12 mt-4">
+                    <h4>Inventario de Productos</h4>
+                    <div class="container">
+                  
+                
+
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let producto of dataSourceProducto">
+                            <td>{{producto.nombre}}</td>
+                            <td>{{producto.stock}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div></div>
+
+            <div class="col-12 mt-4">
+                <h4>Inventario de Materia Prima</h4>
+                <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Materia Prima</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let materiaPrima of dataSourceMateriaPrima">
+                            <td>{{materiaPrima.nombre}}</td>
+                            <td>{{materiaPrima.stock}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+                        
+                        
+        
+    
+    
+</div>

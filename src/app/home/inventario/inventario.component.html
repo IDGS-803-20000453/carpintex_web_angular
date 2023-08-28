@@ -1,0 +1,54 @@
+<app-home></app-home>
+<div class="swiper-container" id="top">
+  <div class="swiper-wrapper">
+    <section class="body">
+      <div class="container mt-4">
+        <div class="row justify-content-center mb-4">
+          <div class="col-lg-6 col-md-8 col-sm-10 col-12 mb-4">
+            <div class="input-group">
+              <input [(ngModel)]="listFilter" class="form-control" name="filter" type="text">
+              <button class="btn btn-outline-secondary" type="button">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-5 col-sm-2 col-6 mb-4" *ngFor="let producto of dataSource | alumnoFilter:listFilter">
+            <div class="card  shadow-lg bg-white rounded">
+              <img class="card-img-top" [src]='producto.imagen' alt="Card image cap" style="height: 20rem;">
+              <!-- <img  src="../../../assets/images/mesa.jpg" > -->
+              <div class="card-body">
+                <h5 class="card-title">{{ producto.nombre }}</h5>
+
+                <div *ngIf="producto.stock>0; else noStock">
+                  <p class="text-primary">¡Solo quedan {{ producto.stock }}!</p>
+                </div>      
+                <ng-template #noStock>
+                  <p class="text-danger">¡Ya no hay stock, te avisaremos cuando vuelva!</p>
+                </ng-template>
+
+                <div class="row">
+                  <p class="col">{{ producto.altura }} m alt | {{ producto.ancho }} m anch</p>
+                </div>
+                <div class="row">
+                  <p class="col">$ {{ producto.total }}</p>
+                </div>
+
+                <div *ngIf="producto.stock>0;">
+                  <button (click)="agregarCanasta(producto.id,producto.nombre,producto.stock,producto.total,producto.largo,producto.ancho,producto.altura,producto.imagen)" class="btn col-12 text-white" [disabled]="loadingStates[producto.id]" [class]="getButtonClass(producto.id)">
+                    <div *ngIf="loadingStates[producto.id]">Agregando..<span class="loader"></span></div>
+                    <span *ngIf="!loadingStates[producto.id]">Añadir al carrito</span>
+                  </button>               
+                 </div>      
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+

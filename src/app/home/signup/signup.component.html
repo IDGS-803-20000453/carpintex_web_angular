@@ -1,0 +1,58 @@
+<app-home></app-home>
+
+<div class="swiper-container" id="top">
+    <div class="swiper-wrapper">
+
+      <!-- <div class="swiper-slide"> -->
+        <section class="login">
+            <div class="login_box">
+                <div class="left">
+                    <div class="contact">
+                        <form (ngSubmit)="signup()">
+                            <h3>Crear Cuenta</h3>
+                            <input type="text" name="nombre" [(ngModel)]="regUsuario.name" placeholder="Nombre" pattern="[a-zA-Z\sáéíóúÁÉÍÓÚ]*" title="Ingresa solo letras, espacios y acentos" oninput="this.value = this.value.replace(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]/g, '');">
+                            <input type="email" name="email" [(ngModel)]="regUsuario.email" placeholder="Correo">
+                            <div class="row">
+                                <div class="col-md-8">
+                                  <input type="text" name="estado" [(ngModel)]="regUsuario.estado" placeholder="Estado" pattern="[a-zA-Z\sáéíóúÁÉÍÓÚ]*" title="Ingresa solo letras, espacios y acentos" oninput="this.value = this.value.replace(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]/g, '');">
+
+                                </div>
+                                <div class="col-md-4">
+                                  <input type="text" name="codigoPostal" [(ngModel)]="regUsuario.codigopostal" placeholder="CP" inputmode="numeric" oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5)" required>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <input type="text" name="ciudad" [(ngModel)]="regUsuario.ciudad" placeholder="Ciudad" pattern="[a-zA-Z\sáéíóúÁÉÍÓÚ]*" title="Ingresa solo letras, espacios y acentos" oninput="this.value = this.value.replace(/[^a-zA-Z\sáéíóúÁÉÍÓÚ]/g, '');">
+
+                              </div>
+                              <div class="col-md-6">
+                                <input type="text" name="calle" [(ngModel)]="regUsuario.calle" placeholder="Calle" >
+
+                              </div>
+
+                            </div>
+
+                            <input type="password" name="password" [(ngModel)]="regUsuario.passwordUsuario" placeholder="Contraseña">
+                            <button type="submit" class="submit">Registrarse</button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+      <!-- </div> -->
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2022 IT SOFTECH Co., Ltd. All Rights Reserved. 
+          
+        </div>
+      </div>
+    </div>
+  </footer>

@@ -1,0 +1,119 @@
+<app-menu></app-menu>
+<div class="container-xl">
+	<div class="table-responsive">
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h2>Gestion <b>Tipo Materia Prima</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="#addTipoMateriaPrimaModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar Tipo de Materia</span></a>
+						<!-- <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						 -->
+					</div>
+				</div>
+			</div>
+            <mat-form-field class="example-form-field">
+				<input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+			</mat-form-field>
+            <table mat-table [dataSource]="dataSource" class="mat-table">
+                <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef> tipo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Unidad Medida">
+                    <th mat-header-cell *matHeaderCellDef> unidad Medida </th>
+                    <td mat-cell *matCellDef="let element"> {{element.unidadMedida}} </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef> acciones </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <a href="#editTipoMateriaPrimaModal" class="edit" data-toggle="modal" (click)="tipoMateriaPrimaGet(element)"><i class="material-icons text-warning" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#deleteTipoMateriaPrimaModal" class="delete" data-toggle="modal" (click)="tipoMateriaPrimaGet(element)"><i class="material-icons text-danger" data-toggle="tooltip" title="Borrar">&#xE872;</i></a>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let dataSource; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal HTML -->
+<div id="addTipoMateriaPrimaModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="agregarTipoMateriaPrima()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Tipo Materia Prima</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>tipo</label>
+						<input type="text" class="form-control" name="tipo" [(ngModel)]="regTipoMateriaPrima.tipo" required>
+					</div>
+					<div class="form-group">
+						<label>Unidad Medida</label>
+                        <input type="text" class="form-control" name="unidadMedida" [(ngModel)]="regTipoMateriaPrima.unidadMedida" required>
+                    </div>					
+				</div>
+				<div class="modal-footer">
+					<button id="closeAddModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+					<input type="submit" class="btn btn-success"  value="Añadir">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editTipoMateriaPrimaModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form (ngSubmit)="editarTipoMateriaPrima()">
+				<div class="modal-header">						
+					<h4 class="modal-title">Editar Tipo Materia Prima</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<div class="form-group">
+						<label>tipo</label>
+                        <input type="text" class="form-control" name="tipo" [(ngModel)]="regTipoMateriaPrimaGet.tipo" required>
+					</div>
+					<div class="form-group">
+                        <label>Unidad Medida</label>
+                        <input type="text" class="form-control" name="unidadMedida" [(ngModel)]="regTipoMateriaPrimaGet.unidadMedida" required>
+                    </div>	
+				</div>
+				<div class="modal-footer">
+					<button id="closeEditModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+					<input type="submit"  class="btn btn-warning"  value="Editar">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteTipoMateriaPrimaModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+				<div class="modal-header">						
+					<h4 class="modal-title">Eliminar Materia Prima</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<p>{{regTipoMateriaPrimaGet.tipo}}</p>					
+					<p>Estas Seguro de eliminar este tipo materia Prima?</p>
+					<p class="text-warning"><small>Esta Accion no se podra revertir.</small></p>
+				</div>
+				<div class="modal-footer">
+					<button id="closeDeleteModal" class="btn btn-default" data-dismiss="modal" style="display: none;"></button>
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+					<input type="submit" class="btn btn-danger" (click)="eliminarTipoMateriaPrima(regTipoMateriaPrimaGet);" value="Delete">
+				</div>
+		</div>
+	</div>
+</div>
